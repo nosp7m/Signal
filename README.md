@@ -1,67 +1,48 @@
-# TextSecure [![Build Status](https://travis-ci.org/WhisperSystems/TextSecure.svg?branch=master)](https://travis-ci.org/WhisperSystems/TextSecure)
+# TextSecure without GCM
 
-TextSecure is a messaging app for simple private communication with friends.
+Thanks to the websocket polling Whispersystems have added to TextSecure to improve reliability and (maybe) start moving away from GCM, it is now possible to use TextSecure without GCM with absolutely minuscule modifications (i.e. commenting out a few lines of code). So that you do not have to invest the time that I did, I have uploaded my changes here along with a short guide.
 
-TextSecure uses your phone's data connection (WiFi/3G/4G) to communicate securely, optionally supports plain SMS/MMS to function as a unified messenger, and can also encrypt the stored messages on your phone.
+## Building TextSecure
 
-Currently available on the Play store.
+I will assume here that you already have a working setup to build (and install) TextSecure. If not, follow [their instructions](https://github.com/WhisperSystems/TextSecure/wiki/How-to-build-TextSecure-from-the-sources).
 
-*[![Play Store Badge](https://developer.android.com/images/brand/en_app_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=org.thoughtcrime.securesms)*
+## Getting your GCM ID
 
-## Contributing Bug reports
-We use GitHub for bug tracking. Please search the existing issues for your bug and create a new one if the issue is not yet tracked!
+For some reason, when I first tested the modified app, the TextSecure server did not deliver any messages to me. To fix that, I registered a GCM ID with it. The idea is to run a modified app (see my comments in src/org/thoughtcrime/securesms/service/RegistrationService.java) on a device which does support GCM to get a GCM ID and log it out to the console. Handily, you can install the Google APIs package on your android sdk tools (which you should already have for the build), which (as the name implies) allows apps to access Google APIs, including GCM.
 
-https://github.com/WhisperSystems/TextSecure/issues
+1. Modify TextSecure and build and sign
+ - You will need to modify the file src/org/thoughtcrime/securesms/service/RegistrationService.java. I have left to comments in there so you know what to uncomment.
 
-## Joining the Beta
-Want to live life on the bleeding edge and help out with testing?
+2. Create an AVD (see also https://developer.android.com/tools/devices/managing-avds-cmdline.html):
+ - find the target id with (in the tools/ directory) "./android list targets"
+ - create a new avd with "./android create avd -n whisper -t <target id>"
 
-You can subscribe to TextSecure Beta releases in two steps:
+3. Run the AVD (see also https://developer.android.com/tools/devices/emulator.html)
+ - "./emulator -avd whisper"
+ - wait for it to start up
+
+4. Install TextSecure
+ - from the platform-tools/ directory, run "./adb install <path to apk>"
+
+5. Run TextSecure and get your ID
+ - On the emulator, start TextSecure and begin the registration process. You can use your own phone number.
+ - Connect to the emulator using telnet "telnet localhost 5554" (usually the port number will be 5554, if not, the port number ist displayed in the window title of the emulator).
+ - From inside telnet, send an sms you received on your phone to the emulator: "sms send <TextSecure phone number> <sms verification message (just type it in)>"
+ - Alternatively, wait the two minutes and then receive the call to manually enter the code.
+ - Look at the logcat output for your ID: "./adb logcat RegistrationService:W \*:S". (also see https://developer.android.com/tools/debugging/debugging-log.html)
+   Some line will say "GCM ID: " and then a string of characters. This is your ID!
+ - You can now close the emulator.
+
+## Modifying the app
+
+Actually, all the lines you would need to comment out are already commented out by me, so there is not much to do here. In RegistrationService.java you can now comment the lines you uncommented for the emulator run out again and uncomment the other two below. Also paste in your GCM ID. Now you are ready to build and use TextSecure!
+
+## Updating
+
+As you have installed the app manually, you will also need to do the updates manually. Of course, you do not need a new GCM ID for each update, so it should be as simple as fetching the TextSecure git repo, merging, and then rebuilding, resigning and reinstalling the app. Android will recognize that you are installing it again and will keep your data.
+
+Good luck!
  
-1. Join the [TextSecure Beta Google+ Community](https://plus.google.com/communities/114424213916773497091).
-1. After you've joined the community, [subscribe to the beta](https://play.google.com/apps/testing/org.thoughtcrime.securesms).
-
-If you're interested in a life of peace and tranquility, stick with the standard releases.
-
-## Contributing Translations
-Interested in helping to translate TextSecure? Contribute here:
-
-https://www.transifex.com/projects/p/textsecure-official/
-
-## Contributing Code
-Instructions on how to setup your development environment and build TextSecure can be found in  [BUILDING.md](https://github.com/WhisperSystems/TextSecure/blob/master/BUILDING.md).
-
-If you're new to the TextSecure codebase, we recommend going through our issues and picking out a simple bug to fix (check the "easy" label in our issues) in order to get yourself familiar.
-
-For larger changes and feature ideas, we ask that you propose it on the mailing list for a high-level discussion before implementation.
-
-This repository is set up with [BitHub](https://whispersystems.org/blog/bithub/), so you can make money for committing to TextSecure. The current BitHub price for an accepted pull request is:
-
-[![Current BitHub Price](https://bithub.herokuapp.com/v1/status/payment/commit/)](https://whispersystems.org/blog/bithub/)
-
-## Contributing Ideas
-Have something you want to say about Open Whisper Systems projects or want to be part of the conversation? Get involved in the mailing list!
-
-whispersystems@lists.riseup.net
-
-https://lists.riseup.net/www/info/whispersystems
-
-## Contributing Funds
-[![Donate](https://www.coinbase.com/assets/buttons/donation_large-36ee936185fdf9a88e3a28cc685fb9b7.png)](https://coinbase.com/checkouts/d29fd4c37ca442393e32fdcb95304701)
-
-You can add funds to BitHub to directly help further development efforts.
-
-Help
-====
-## Support
-For troubleshooting and questions, please visit our support center!
-
-http://support.whispersystems.org/
-
-## Documentation
-Looking for documentation? Check out the wiki!
-
-https://github.com/WhisperSystems/TextSecure/wiki
 
 # Legal things
 ## Cryptography Notice

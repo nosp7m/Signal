@@ -64,7 +64,7 @@ public class ApplicationContext extends Application implements DependencyInjecto
     initializeLogging();
     initializeDependencyInjection();
     initializeJobManager();
-    initializeGcmCheck();
+    //initializeGcmCheck();
   }
 
   @Override
@@ -117,7 +117,9 @@ public class ApplicationContext extends Application implements DependencyInjecto
     if (TextSecurePreferences.isPushRegistered(this) &&
         TextSecurePreferences.getGcmRegistrationId(this) == null)
     {
-      this.jobManager.add(new GcmRefreshJob(this));
+      if (false) {
+        this.jobManager.add(new GcmRefreshJob(this));
+      }
     }
   }
 

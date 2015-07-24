@@ -173,7 +173,7 @@ public class AdvancedPreferenceFragment extends PreferenceFragment {
 
       @Override
       protected Integer doInBackground(Void... params) {
-        try {
+        /*try {
           Context                  context        = getActivity();
           TextSecureAccountManager accountManager = TextSecureCommunicationFactory.createManager(context);
 
@@ -187,7 +187,8 @@ public class AdvancedPreferenceFragment extends PreferenceFragment {
         } catch (IOException ioe) {
           Log.w(TAG, ioe);
           return NETWORK_ERROR;
-        }
+        }*/
+        return SUCCESS;
       }
     }
 

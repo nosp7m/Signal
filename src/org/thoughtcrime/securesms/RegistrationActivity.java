@@ -195,9 +195,9 @@ public class RegistrationActivity extends BaseActionBarActivity {
         return;
       }
 
-      int gcmStatus = GooglePlayServicesUtil.isGooglePlayServicesAvailable(self);
+      /*int gcmStatus = GooglePlayServicesUtil.isGooglePlayServicesAvailable(self);
 
-      if (gcmStatus != ConnectionResult.SUCCESS) {
+      if (false) {
         if (GooglePlayServicesUtil.isUserRecoverableError(gcmStatus)) {
           GooglePlayServicesUtil.getErrorDialog(gcmStatus, self, 9000).show();
         } else {
@@ -205,7 +205,7 @@ public class RegistrationActivity extends BaseActionBarActivity {
                                   getString(R.string.RegistrationActivity_sorry_this_device_is_not_supported_for_data_messaging));
         }
         return;
-      }
+      }*/
 
       AlertDialogWrapper.Builder dialog = new AlertDialogWrapper.Builder(self);
       dialog.setTitle(PhoneNumberFormatter.getInternationalFormatFromE164(e164number));
