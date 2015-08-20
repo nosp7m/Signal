@@ -45,7 +45,7 @@ Good luck!
 
 ## Getting notifications even when the phone is locked
 
-Normally, TextSecure only checks messages over WebSocket under certain conditions, because push notifications are handled via GCM. Now without GCM, if you still want push notifications, [nosp7m](https://github.com/nosp7m) has uncommented one of the checks so it will keep looking for new messages and [uploaded it here](github.com/nosp7m/TextSecure).
+Normally, TextSecure only checks messages over WebSocket under certain conditions, because push notifications are handled via GCM. Now without GCM, if you still want push notifications, [nosp7m](https://github.com/nosp7m) has uncommented one of the checks so it will keep looking for new messages and [uploaded it here](https://github.com/nosp7m/TextSecure).
 
 # Legal things
 ## Cryptography Notice
