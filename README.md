@@ -42,7 +42,10 @@ Actually, all the lines you would need to comment out are already commented out 
 As you have installed the app manually, you will also need to do the updates manually. Of course, you do not need a new GCM ID for each update, so it should be as simple as fetching the TextSecure git repo, merging, and then rebuilding, resigning and reinstalling the app. Android will recognize that you are installing it again and will keep your data.
 
 Good luck!
- 
+
+## Getting notifications even when the phone is locked
+
+Normally, TextSecure only checks messages over WebSocket under certain conditions, because push notifications are handled via GCM. Now without GCM, if you still want push notifications, [nosp7m](https://github.com/nosp7m) has uncommented one of the checks so it will keep looking for new messages and [uploaded it here](github.com/nosp7m/TextSecure).
 
 # Legal things
 ## Cryptography Notice
