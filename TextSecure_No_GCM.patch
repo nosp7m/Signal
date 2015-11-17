@@ -1,0 +1,102 @@
+diff --git a/src/org/thoughtcrime/securesms/ApplicationContext.java b/src/org/thoughtcrime/securesms/ApplicationContext.java
+index 97565aa..b474fd9 100644
+--- a/src/org/thoughtcrime/securesms/ApplicationContext.java
++++ b/src/org/thoughtcrime/securesms/ApplicationContext.java
+@@ -64,7 +64,7 @@ public class ApplicationContext extends Application implements DependencyInjecto
+     initializeLogging();
+     initializeDependencyInjection();
+     initializeJobManager();
+-    initializeGcmCheck();
++    //initializeGcmCheck();
+   }
+ 
+   @Override
+@@ -117,7 +117,7 @@ public class ApplicationContext extends Application implements DependencyInjecto
+     if (TextSecurePreferences.isPushRegistered(this) &&
+         TextSecurePreferences.getGcmRegistrationId(this) == null)
+     {
+-      this.jobManager.add(new GcmRefreshJob(this));
++      //this.jobManager.add(new GcmRefreshJob(this));
+     }
+   }
+ 
+diff --git a/src/org/thoughtcrime/securesms/RegistrationActivity.java b/src/org/thoughtcrime/securesms/RegistrationActivity.java
+index 94b02c5..5c4061b 100644
+--- a/src/org/thoughtcrime/securesms/RegistrationActivity.java
++++ b/src/org/thoughtcrime/securesms/RegistrationActivity.java
+@@ -195,7 +195,7 @@ public class RegistrationActivity extends BaseActionBarActivity {
+         return;
+       }
+ 
+-      int gcmStatus = GooglePlayServicesUtil.isGooglePlayServicesAvailable(self);
++      /*int gcmStatus = GooglePlayServicesUtil.isGooglePlayServicesAvailable(self);
+ 
+       if (gcmStatus != ConnectionResult.SUCCESS) {
+         if (GooglePlayServicesUtil.isUserRecoverableError(gcmStatus)) {
+@@ -205,7 +205,7 @@ public class RegistrationActivity extends BaseActionBarActivity {
+                                   getString(R.string.RegistrationActivity_sorry_this_device_is_not_supported_for_data_messaging));
+         }
+         return;
+-      }
++      }*/
+ 
+       AlertDialogWrapper.Builder dialog = new AlertDialogWrapper.Builder(self);
+       dialog.setTitle(PhoneNumberFormatter.getInternationalFormatFromE164(e164number));
+diff --git a/src/org/thoughtcrime/securesms/preferences/AdvancedPreferenceFragment.java b/src/org/thoughtcrime/securesms/preferences/AdvancedPreferenceFragment.java
+index 684df21..05d3ddd 100644
+--- a/src/org/thoughtcrime/securesms/preferences/AdvancedPreferenceFragment.java
++++ b/src/org/thoughtcrime/securesms/preferences/AdvancedPreferenceFragment.java
+@@ -173,7 +173,7 @@ public class AdvancedPreferenceFragment extends PreferenceFragment {
+ 
+       @Override
+       protected Integer doInBackground(Void... params) {
+-        try {
++        /*try {
+           Context                  context        = getActivity();
+           TextSecureAccountManager accountManager = TextSecureCommunicationFactory.createManager(context);
+ 
+@@ -187,7 +187,8 @@ public class AdvancedPreferenceFragment extends PreferenceFragment {
+         } catch (IOException ioe) {
+           Log.w(TAG, ioe);
+           return NETWORK_ERROR;
+-        }
++        }*/
++        return SUCCESS;
+       }
+     }
+ 
+diff --git a/src/org/thoughtcrime/securesms/service/MessageRetrievalService.java b/src/org/thoughtcrime/securesms/service/MessageRetrievalService.java
+index 1eb29e6..98f9c2b 100644
+--- a/src/org/thoughtcrime/securesms/service/MessageRetrievalService.java
++++ b/src/org/thoughtcrime/securesms/service/MessageRetrievalService.java
+@@ -140,7 +140,7 @@ public class MessageRetrievalService extends Service implements Runnable, Inject
+   private synchronized void decrementPushReceived() {
+     if (!pushPending.isEmpty()) {
+       Intent intent = pushPending.remove(0);
+-      GcmBroadcastReceiver.completeWakefulIntent(intent);
++      //GcmBroadcastReceiver.completeWakefulIntent(intent);
+       notifyAll();
+     }
+   }
+@@ -150,7 +150,7 @@ public class MessageRetrievalService extends Service implements Runnable, Inject
+                              networkRequirement.isPresent(), activeActivities, pushPending.size()));
+ 
+     return TextSecurePreferences.isWebsocketRegistered(this) &&
+-           (activeActivities > 0 || !pushPending.isEmpty())  &&
++           //(activeActivities > 0 || !pushPending.isEmpty())  &&
+            networkRequirement.isPresent();
+   }
+ 
+diff --git a/src/org/thoughtcrime/securesms/service/RegistrationService.java b/src/org/thoughtcrime/securesms/service/RegistrationService.java
+index 3d0d345..6976cfc 100644
+--- a/src/org/thoughtcrime/securesms/service/RegistrationService.java
++++ b/src/org/thoughtcrime/securesms/service/RegistrationService.java
+@@ -243,7 +243,7 @@ public class RegistrationService extends Service {
+ 
+     setState(new RegistrationState(RegistrationState.STATE_GCM_REGISTERING, number));
+ 
+-    String gcmRegistrationId = GoogleCloudMessaging.getInstance(this).register(GcmRefreshJob.REGISTRATION_ID);
++    String gcmRegistrationId = "";
+     accountManager.setGcmId(Optional.of(gcmRegistrationId));
+ 
+     TextSecurePreferences.setGcmRegistrationId(this, gcmRegistrationId);
