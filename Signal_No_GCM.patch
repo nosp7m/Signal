@@ -1,8 +1,8 @@
 diff --git a/src/org/thoughtcrime/securesms/ApplicationContext.java b/src/org/thoughtcrime/securesms/ApplicationContext.java
-index 97565aa..b474fd9 100644
+index aaab483..9f4aed5 100644
 --- a/src/org/thoughtcrime/securesms/ApplicationContext.java
 +++ b/src/org/thoughtcrime/securesms/ApplicationContext.java
-@@ -64,7 +64,7 @@ public class ApplicationContext extends Application implements DependencyInjecto
+@@ -69,7 +69,7 @@ public class ApplicationContext extends Application implements DependencyInjecto
      initializeLogging();
      initializeDependencyInjection();
      initializeJobManager();
@@ -11,7 +11,7 @@ index 97565aa..b474fd9 100644
    }
  
    @Override
-@@ -117,7 +117,7 @@ public class ApplicationContext extends Application implements DependencyInjecto
+@@ -128,7 +128,7 @@ public class ApplicationContext extends Application implements DependencyInjecto
      if (TextSecurePreferences.isPushRegistered(this) &&
          TextSecurePreferences.getGcmRegistrationId(this) == null)
      {
@@ -21,7 +21,7 @@ index 97565aa..b474fd9 100644
    }
  
 diff --git a/src/org/thoughtcrime/securesms/RegistrationActivity.java b/src/org/thoughtcrime/securesms/RegistrationActivity.java
-index 94b02c5..5c4061b 100644
+index 61781a2..44c5b42 100644
 --- a/src/org/thoughtcrime/securesms/RegistrationActivity.java
 +++ b/src/org/thoughtcrime/securesms/RegistrationActivity.java
 @@ -195,7 +195,7 @@ public class RegistrationActivity extends BaseActionBarActivity {
@@ -43,25 +43,25 @@ index 94b02c5..5c4061b 100644
        AlertDialogWrapper.Builder dialog = new AlertDialogWrapper.Builder(self);
        dialog.setTitle(PhoneNumberFormatter.getInternationalFormatFromE164(e164number));
 diff --git a/src/org/thoughtcrime/securesms/preferences/AdvancedPreferenceFragment.java b/src/org/thoughtcrime/securesms/preferences/AdvancedPreferenceFragment.java
-index 684df21..05d3ddd 100644
+index b0531d7..16a98f3 100644
 --- a/src/org/thoughtcrime/securesms/preferences/AdvancedPreferenceFragment.java
 +++ b/src/org/thoughtcrime/securesms/preferences/AdvancedPreferenceFragment.java
-@@ -173,7 +173,7 @@ public class AdvancedPreferenceFragment extends PreferenceFragment {
+@@ -177,7 +177,7 @@ public class AdvancedPreferenceFragment extends PreferenceFragment {
  
        @Override
        protected Integer doInBackground(Void... params) {
 -        try {
 +        /*try {
-           Context                  context        = getActivity();
-           TextSecureAccountManager accountManager = TextSecureCommunicationFactory.createManager(context);
- 
-@@ -187,7 +187,8 @@ public class AdvancedPreferenceFragment extends PreferenceFragment {
+           Context                  context                = getActivity();
+           TextSecureAccountManager accountManager         = TextSecureCommunicationFactory.createManager(context);
+           RedPhoneAccountManager   redPhoneAccountManager = new RedPhoneAccountManager(BuildConfig.REDPHONE_MASTER_URL,
+@@ -203,7 +203,8 @@ public class AdvancedPreferenceFragment extends PreferenceFragment {
          } catch (IOException ioe) {
            Log.w(TAG, ioe);
            return NETWORK_ERROR;
 -        }
 +        }*/
-+        return SUCCESS;
++		return SUCCESS;
        }
      }
  
@@ -88,10 +88,10 @@ index 1eb29e6..98f9c2b 100644
    }
  
 diff --git a/src/org/thoughtcrime/securesms/service/RegistrationService.java b/src/org/thoughtcrime/securesms/service/RegistrationService.java
-index 3d0d345..6976cfc 100644
+index 879aac4..240287b 100644
 --- a/src/org/thoughtcrime/securesms/service/RegistrationService.java
 +++ b/src/org/thoughtcrime/securesms/service/RegistrationService.java
-@@ -243,7 +243,7 @@ public class RegistrationService extends Service {
+@@ -244,7 +244,7 @@ public class RegistrationService extends Service {
  
      setState(new RegistrationState(RegistrationState.STATE_GCM_REGISTERING, number));
  
